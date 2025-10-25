@@ -3,21 +3,18 @@ package com.example.ema;
 
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.crafting.IPatternDetailsDecoder;
-import appeng.api.stacks.AEItemKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 public class ExtremePatternDecoder implements IPatternDetailsDecoder {
+
+    @Nullable
     @Override
-    public IPatternDetails decodePattern(AEItemKey key, Level level) {
-        if (key.getItem() instanceof ExtremePatternItem) {
-            return new ExtremePatternDetails(key.toStack());
+    public IPatternDetails decodePattern(ItemStack patternStack, Level level, boolean isServer) {
+        if (patternStack.getItem() instanceof ExtremePatternItem) {
+            return new ExtremePatternDetails(patternStack);
         }
         return null;
-    }
-
-    @Override
-    public boolean isEncodedPattern(ItemStack stack) {
-        return stack.getItem() instanceof ExtremePatternItem;
     }
 }

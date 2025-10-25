@@ -1,0 +1,11 @@
+
+# Ignore Gradle cache
+.gradle/
+
+# Ignore build output
+build/
+
+# Ignore user run configurations
+run/
+.idea/
+*.iml

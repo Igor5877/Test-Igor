@@ -56,8 +56,10 @@ public class EMABlockEntity extends BlockEntity implements IGridNodeListener, IC
                 ItemStack result = automationInterface.extractItem(automationInterface.getSlots() - 1, 1, true);
                 if (!result.isEmpty()) {
                     automationInterface.extractItem(automationInterface.getSlots() - 1, 1, false);
-                    IStorageService storage = getGridNode().getGrid().getStorageService();
-                    storage.getInventory().insert(AEItemKey.of(result), result.getCount(), null, null);
+                    if (getGridNode() != null && getGridNode().getGrid() != null) {
+                        IStorageService storage = getGridNode().getGrid().getStorageService();
+                        storage.getInventory().insert(AEItemKey.of(result), result.getCount(), null, null);
+                    }
                     activeCraft = null;
                     EMA.LOGGER.info("Crafting complete!");
                 }
@@ -128,6 +130,11 @@ public class EMABlockEntity extends BlockEntity implements IGridNodeListener, IC
 
     @Override
     public void onGridNodeStateChanged(IGridNode iGridNode, IGridNodeListener.State a) {
+
+    }
+
+    @Override
+    public void onSaveChanges(Object o, IGridNode iGridNode) {
 
     }
 

@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -21,16 +22,16 @@ public class ExtremePatternEncoderMenu extends AbstractContainerMenu {
     public ExtremePatternEncoderMenu(@Nullable MenuType<?> type, int id, Inventory playerInventory) {
         super(type, id);
 
-        addSlot(new Slot(inventory, 82, 188, 120));
-        addSlot(new Slot(inventory, 83, 188, 140));
+        addSlot(new SlotItemHandler(inventory, 82, 188, 120));
+        addSlot(new SlotItemHandler(inventory, 83, 188, 140));
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                addSlot(new Slot(inventory, i * 9 + j, 8 + j * 18, 8 + i * 18));
+                addSlot(new SlotItemHandler(inventory, i * 9 + j, 8 + j * 18, 8 + i * 18));
             }
         }
 
-        addSlot(new Slot(inventory, 81, 188, 80));
+        addSlot(new SlotItemHandler(inventory, 81, 188, 80));
 
         // Player inventory
         for (int i = 0; i < 3; i++) {

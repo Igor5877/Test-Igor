@@ -30,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 public class EMABlockEntity extends BlockEntity implements IGridNodeListener<EMABlockEntity>, ICraftingProvider, MenuProvider {
@@ -149,16 +148,18 @@ public class EMABlockEntity extends BlockEntity implements IGridNodeListener<EMA
             if (automationInterface != null) {
                 int gridSize = extremePattern.getGridSize();
                 if (automationInterface.getSlots() >= gridSize * gridSize) {
-                    for (KeyCounter counter : inputHolder) {
-                        if (counter.key() instanceof AEItemKey itemKey) {
-                            ItemStack stack = itemKey.toStack(Math.toIntExact(counter.amount()));
-                            for (int i = 0; i < automationInterface.getSlots(); i++) {
-                                stack = automationInterface.insertItem(i, stack, false);
-                                if (stack.isEmpty()) {
-                                    break;
+                    int slotIndex = 0;
+                    for (KeyCounter slotIngredients : inputHolder) {
+                        if (slotIngredients != null && !slotIngredients.isEmpty()) {
+                            var entry = slotIngredients.getFirstEntry();
+                            if (entry != null && entry.getKey() instanceof AEItemKey itemKey) {
+                                ItemStack stack = itemKey.toStack(Math.toIntExact(entry.getLongValue()));
+                                if (slotIndex < automationInterface.getSlots()) {
+                                    automationInterface.insertItem(slotIndex, stack, false);
                                 }
                             }
                         }
+                        slotIndex++;
                     }
                     activeCraft = new ActiveCraft(patternDetails, automationInterface);
                     EMA.LOGGER.info("Items transferred to Automation Interface!");
@@ -186,11 +187,9 @@ public class EMABlockEntity extends BlockEntity implements IGridNodeListener<EMA
         return new ExtremePatternEncoderMenu(ModMenus.EXTREME_PATTERN_ENCODER_MENU.get(), windowId, playerInventory);
     }
 
-    @Override
     public void onSaveChanges(EMABlockEntity nodeOwner, IGridNode node) {
     }
 
-    @Override
     public void onGridNodeStateChanged(EMABlockEntity nodeOwner, IGridNode node, State state) {
     }
 
